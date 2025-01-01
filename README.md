@@ -15,6 +15,6 @@ Similarly to create the considered collections in the synopsis open pycharm and 
 - MongoDB\init_mongoDB.py
 - MongoDB\print.py
 
-You can run the file in pycharm by pressing shift+F10, or push the "run" button. You have now created a MongoDB called exam_DB, where Print.py will print all documents of all created collections in the console.
+You can run the file in pycharm by pressing shift+F10, or push the "run" button. You have now created a MongoDB database called exam_DB, where Print.py will print all documents of all created collections in the console.
 
 In file MongoDB\CreateDB.py you may need to change the connection string to your local MongoDB server.
