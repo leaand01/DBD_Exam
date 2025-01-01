@@ -1,4 +1,4 @@
-from pprint import pprint # pretty print
+from pprint import pprint  # pretty print
 from CreateDB import db
 
 
@@ -8,7 +8,6 @@ print('\nAll collections in exam_DB: ', collections)
 
 # print all documents in each collection
 for collection_name in ['customers', 'inventory', 'orders', 'logs']:
-# for collection_name in collections:
     print(f"\nDocuments in collection '{collection_name}':")
     collection = db[collection_name]
 

@@ -9,7 +9,7 @@ import Collection_LoggingData
 if __name__ == "__main__":
 
     print('Initialize mongoDB, collections and insert data')
-    CreateDB # run script
+    CreateDB  # run script
     Collection_CustomerData
     Collection_InventoryData
     Collection_OrderData

@@ -25,7 +25,7 @@ for order in orders:
         )
 
         # Beregn ny lagerstatus
-        new_quantity = latest_inventory["quantity"] - amount_sold # Should include tests that inventory cannot be negative. Not implemented
+        new_quantity = latest_inventory["quantity"] - amount_sold  # Should include tests that inventory cannot be negative. Not implemented
 
         # Opret en ny log for lageropdateringen
         inventory_collection.insert_one({
