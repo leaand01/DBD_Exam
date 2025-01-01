@@ -1,0 +1,2 @@
+insert into OrderItems (Order_id, Item_id, Quantity, DiscountCode) values (3, 1, 1, 'black_friday50');
+insert into OrderItems (Order_id, Item_id, Quantity, DiscountCode) values (3, 2, 2, 'black_friday50');
