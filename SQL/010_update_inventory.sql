@@ -1,40 +1,37 @@
 -- Update inventory from orders with order_id 1-2
 
-DECLARE @OrderId INT, @OrderTimestamp DATETIME;
-DECLARE @ItemId INT, @QuantitySold INT, @ItemQuantity INT, @ItemPrice DECIMAL(10,2), @ItemCategory NVARCHAR(100), @ItemName NVARCHAR(100);
+declare @OrderId int, @OrderTimestamp datetime;
+declare @ItemId int, @QuantitySold int, @ItemQuantity int, @ItemPrice decimal(10,2), @ItemCategory nvarchar(100), @ItemName nvarchar(100);
 
 -- Cursor to iterate over each order and its items
-DECLARE OrderCursor CURSOR FOR
-SELECT o.Order_Id, o.Timestamp, oi.Item_Id, oi.Quantity, i.Quantity AS ItemQuantity, i.Price, i.Category, i.Item
-FROM Orders o
-JOIN OrderItems oi ON o.Order_Id = oi.Order_id
-JOIN Inventory i ON oi.Item_id = i.Item_Id;
+declare OrderCursor cursor for
+select o.Order_Id, o.Timestamp, oi.Item_Id, oi.Quantity, i.Quantity as ItemQuantity, i.Price, i.Category, i.Item
+from Orders o
+JOIN OrderItems oi on o.Order_Id = oi.Order_id
+JOIN Inventory i on oi.Item_id = i.Item_Id;
 
 -- Open the cursor
-OPEN OrderCursor;
+open OrderCursor;
 
 -- Fetch the first row
-FETCH NEXT FROM OrderCursor INTO @OrderId, @OrderTimestamp, @ItemId, @QuantitySold, @ItemQuantity, @ItemPrice, @ItemCategory, @ItemName;
+fetch next from OrderCursor into @OrderId, @OrderTimestamp, @ItemId, @QuantitySold, @ItemQuantity, @ItemPrice, @ItemCategory, @ItemName;
 
-WHILE @@FETCH_STATUS = 0
-BEGIN
+while @@fetch_status = 0
+begin
     -- Calculate new inventory quantity
-    DECLARE @NewQuantity INT = @ItemQuantity - @QuantitySold;
+    declare @NewQuantity int = @ItemQuantity - @QuantitySold;
 
     -- Insert a new row into the Inventory table
-    INSERT INTO Inventory (Timestamp, Item, Quantity, Price, Category)
-    VALUES (@OrderTimestamp, @ItemName, @NewQuantity, @ItemPrice, @ItemCategory);
-
-    -- Print status (optional, for debugging)
-  --  PRINT CONCAT('Updated Inventory for Item ID ', @ItemId, ': New Quantity = ', @NewQuantity, ' (Order ID: ', @OrderId, ')');
+    insert into Inventory (Timestamp, Item, Quantity, Price, Category)
+    values (@OrderTimestamp, @ItemName, @NewQuantity, @ItemPrice, @ItemCategory);
 
     -- Fetch the next row
-    FETCH NEXT FROM OrderCursor INTO @OrderId, @OrderTimestamp, @ItemId, @QuantitySold, @ItemQuantity, @ItemPrice, @ItemCategory, @ItemName;
-END
+    fetch next from OrderCursor into @OrderId, @OrderTimestamp, @ItemId, @QuantitySold, @ItemQuantity, @ItemPrice, @ItemCategory, @ItemName;
+end
 
 -- Close and deallocate the cursor
-CLOSE OrderCursor;
-DEALLOCATE OrderCursor;
+close OrderCursor;
+deallocate OrderCursor;
 
 
--- Remark: denne kode virker kun fordi i dette special tilfælde har der kun er én række per item og item_id, hvorfor når ser på nyeste timestamp for item_id svarer det til nyeste timestamp for item.
+-- Note: denne kode virker kun fordi i dette special tilfælde har der kun er én række per item og item_id, hvorfor når ser på nyeste timestamp for item_id svarer det til nyeste timestamp for item.

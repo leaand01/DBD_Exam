@@ -1,28 +1,28 @@
 -- Prior OrderItems migration
-SELECT 
+select 
     O.Order_Id,
     -- Kunderelateret info (embed customer data)
-    C.Customer_Id AS customer_id,
-    C.FullName AS full_name,
-    C.Email AS email,
-    C.Address AS address,
+    C.Customer_Id as customer_id,
+    C.FullName as full_name,
+    C.Email as email,
+    C.Address as address,
     
     -- Relaterede varer (embed inventory items data)
-    OI.Item_Id AS item_id,
-    I.Item AS item,
-    I.Price AS price,
-    I.Category AS category,
-    OI.Quantity AS amount,
+    OI.Item_Id as item_id,
+    I.Item as item,
+    I.Price as price,
+    I.Category as category,
+    OI.Quantity as amount,
 
-    -- Totalpris og tid (total_price + timestamp)
+    -- Totalpris og tid
     O.Total_price,
     O.Timestamp
-FROM 
+from 
     Orders O
-    JOIN Customers C ON O.Customer_Id = C.Customer_Id  -- Join med Customers-tabellen
-    JOIN OrderItems OI ON O.Order_Id = OI.Order_Id      -- Join med OrderItems-tabellen
-    JOIN Inventory I ON OI.Item_Id = I.Item_Id          -- Join med Inventory-tabellen
-WHERE 
+    JOIN Customers C on O.Customer_Id = C.Customer_Id  -- Join med Customers-tabellen
+    JOIN OrderItems OI on O.Order_Id = OI.Order_Id      -- Join med OrderItems-tabellen
+    JOIN Inventory I on OI.Item_Id = I.Item_Id          -- Join med Inventory-tabellen
+where 
 	O.Order_Id < 3;
     --O.Order_Id = 1;  
 	--O.Order_Id = 2;  
